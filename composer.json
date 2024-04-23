@@ -15,8 +15,6 @@
         "koriym/attributes": "^1.0.4",
         "koriym/null-object": "^1.0",
         "koriym/param-reader": "^1.0",
-        "koriym/printo": "^1.0",
-        "nikic/php-parser": "^4.13.2",
         "ray/aop": "^2.14",
         "ray/compiler": "^1.10.3"
     },

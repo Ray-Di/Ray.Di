@@ -31,8 +31,15 @@ final class SetterMethods
 
     public function add(?SetterMethod $setterMethod = null): void
     {
-        if ($setterMethod) {
-            $this->setterMethods[] = $setterMethod;
+        if (! $setterMethod) {
+            return;
         }
+
+        $this->setterMethods[] = $setterMethod;
+    }
+
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitSetterMethods($this->setterMethods);
     }
 }

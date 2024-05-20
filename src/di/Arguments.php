@@ -38,6 +38,11 @@ final class Arguments
         return $parameters;
     }
 
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitArguments($this->arguments);
+    }
+
     /**
      * @return mixed
      *

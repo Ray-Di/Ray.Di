@@ -145,6 +145,11 @@ final class Argument implements Serializable
         $this->reflection = new ReflectionParameter([$ref[0], $ref[1]], $ref[2]);
     }
 
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitArgument($this->index, $this->isDefaultAvailable, $this->default);
+    }
+
     private function setDefaultValue(ReflectionParameter $parameter): void
     {
         if (! $this->isDefaultAvailable) {

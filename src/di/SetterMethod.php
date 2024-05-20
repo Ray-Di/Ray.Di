@@ -63,4 +63,9 @@ final class SetterMethod
     {
         $this->isOptional = true;
     }
+
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitSetterMethod($this->method, $this->arguments);
+    }
 }

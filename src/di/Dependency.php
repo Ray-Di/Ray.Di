@@ -146,4 +146,18 @@ final class Dependency implements DependencyInterface
         /** @psalm-suppress ArgumentTypeCoercion */
         $this->newInstance->weaveAspects($class, $bind); // @phpstan-ignore-line
     }
+
+    public function accept(VisitorInterface $visitor): string
+    {
+        $visitor->visitDependency(
+            $this->newInstance,
+            $this->postConstruct,
+            $this->isSingleton
+        );
+    }
+
+    public function isSingleton(): bool
+    {
+        return $this->isSingleton;
+    }
 }

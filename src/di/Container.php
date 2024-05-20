@@ -210,12 +210,4 @@ final class Container implements InjectorInterface
     {
         ksort($this->container);
     }
-
-    public function isSingleton(string $index)
-    {
-        if (! array_key_exists($index, $this->container)) {
-            throw new Unbound($index);
-        }
-        return $this->container[$index]->isSingleton();
-    }
 }

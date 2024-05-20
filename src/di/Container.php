@@ -13,6 +13,7 @@ use Ray\Di\Exception\Untargeted;
 use Ray\Di\MultiBinding\MultiBindings;
 use ReflectionClass;
 
+use function array_key_exists;
 use function array_merge;
 use function class_exists;
 use function explode;
@@ -208,5 +209,13 @@ final class Container implements InjectorInterface
     public function sort(): void
     {
         ksort($this->container);
+    }
+
+    public function isSingleton(string $index)
+    {
+        if (! array_key_exists($index, $this->container)) {
+            throw new Unbound($index);
+        }
+        return $this->container[$index]->isSingleton();
     }
 }

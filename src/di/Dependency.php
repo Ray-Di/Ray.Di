@@ -149,7 +149,7 @@ final class Dependency implements DependencyInterface
 
     public function accept(VisitorInterface $visitor): string
     {
-        $visitor->visitDependency(
+        return $visitor->visitDependency(
             $this->newInstance,
             $this->postConstruct,
             $this->isSingleton

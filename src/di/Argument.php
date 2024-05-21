@@ -147,7 +147,12 @@ final class Argument implements Serializable
 
     public function accept(VisitorInterface $visitor)
     {
-        $visitor->visitArgument($this->index, $this->isDefaultAvailable, $this->default);
+        $visitor->visitArgument(
+            $this->index,
+            $this->isDefaultAvailable,
+            $this->default,
+            $this->reflection
+        );
     }
 
     private function setDefaultValue(ReflectionParameter $parameter): void

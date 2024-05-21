@@ -16,7 +16,7 @@ class VisitorTest extends TestCase
     public function setUp(): void
     {
         $conatiner = (new FakeCarModule())->getContainer();
-        $this->visitor = new NullVisitor($conatiner);
+        $this->visitor = new CompileVisitor($conatiner);
     }
 
     public function testVisit(): void

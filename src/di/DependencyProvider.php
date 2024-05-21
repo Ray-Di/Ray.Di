@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Ray\Di;
 
+use Ray\Compiler\CompileVisitor;
+
 use function assert;
 use function sprintf;
 
@@ -88,5 +90,21 @@ final class DependencyProvider implements DependencyInterface
     public function setContext(SetContextInterface $provider): void
     {
         $provider->setContext($this->context);
+    }
+
+    public function isSingleton(): bool
+    {
+        return $this->isSingleton;
+    }
+
+    public function accept(VisitorInterface $visitor): string
+    {
+        assert($visitor instanceof CompileVisitor);
+
+        return $visitor->visitProvider(
+            $this->dependency,
+            $this->context,
+            $this->isSingleton
+        );
     }
 }

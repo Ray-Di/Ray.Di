@@ -13,7 +13,6 @@ use Ray\Di\Exception\Untargeted;
 use Ray\Di\MultiBinding\MultiBindings;
 use ReflectionClass;
 
-use function array_key_exists;
 use function array_merge;
 use function class_exists;
 use function explode;
@@ -201,8 +200,8 @@ final class Container implements InjectorInterface
      */
     public function map(callable $f): void
     {
-        foreach ($this->container as &$index) {
-            $index = $f($index);
+        foreach ($this->container as $key => &$index) {
+            $index = $f($index, $key);
         }
     }
 

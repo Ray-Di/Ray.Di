@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Ray\Di;
 
+use Ray\Compiler\CompileVisitor;
+
+use function assert;
 use function get_class;
 use function gettype;
 use function is_object;
@@ -64,5 +67,12 @@ final class Instance implements DependencyInterface
      */
     public function setScope($scope): void
     {
+    }
+
+    public function accept(VisitorInterface $visitor): string
+    {
+        assert($visitor instanceof CompileVisitor);
+
+        return $visitor->visitInstance($this->value);
     }
 }

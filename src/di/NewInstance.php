@@ -87,7 +87,8 @@ final class NewInstance
         $visitor->visitNewInstance(
             $this->class,
             $this->setterMethods,
-            $this->arguments
+            $this->arguments,
+            $this->bind
         );
     }
 

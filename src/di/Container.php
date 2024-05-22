@@ -14,8 +14,10 @@ use Ray\Di\MultiBinding\MultiBindings;
 use ReflectionClass;
 
 use function array_merge;
+use function assert;
 use function class_exists;
 use function explode;
+use function is_string;
 use function ksort;
 
 final class Container implements InjectorInterface
@@ -196,11 +198,12 @@ final class Container implements InjectorInterface
     }
 
     /**
-     * @param callable(DependencyInterface): DependencyInterface $f
+     * @param callable(DependencyInterface, string): DependencyInterface $f
      */
     public function map(callable $f): void
     {
         foreach ($this->container as $key => &$index) {
+            assert(is_string($key));
             $index = $f($index, $key);
         }
     }

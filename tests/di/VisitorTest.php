@@ -8,12 +8,14 @@ use PHPUnit\Framework\TestCase;
 use Ray\Aop\Bind as AopBind;
 use ReflectionParameter;
 
+use function assert;
 use function implode;
+use function method_exists;
 use function sprintf;
 
 class VisitorTest extends TestCase
 {
-    /* @var VisitorInterface */
+    /** @var NullVisitor */
     private $visitor;
 
     /** @var Dependency */
@@ -22,7 +24,9 @@ class VisitorTest extends TestCase
     public function setUp(): void
     {
         $this->visitor = new NullVisitor();
-        $this->dependency = (new FakeCarModule())->getContainer()->getContainer()['Ray\Di\FakeCarInterface-'];
+        $dependency = (new FakeCarModule())->getContainer()->getContainer()['Ray\Di\FakeCarInterface-'];
+        assert($dependency instanceof Dependency);
+        $this->dependency = $dependency;
     }
 
     public function testNullVisit(): void
@@ -34,22 +38,27 @@ class VisitorTest extends TestCase
     public function testCollectVisit(): void
     {
         $collector = new class () {
+            /** @var array<string> */
             public $args = [];
+
+            /** @var array<string> */
             public $methods = [];
+
+            /** @var string */
             public $newInstance;
 
-            public function pushArg(string $arg)
+            public function pushArg(string $arg): void
             {
                 $this->args[] = $arg;
             }
 
-            public function pushMethod(string $method)
+            public function pushMethod(string $method): void
             {
                 $this->methods[] = sprintf('%s(%s)', $method, implode(',', $this->args));
                 $this->args = [];
             }
 
-            public function pushNewInstance(string $class)
+            public function pushNewInstance(string $class): void
             {
                 $this->newInstance = sprintf('%s(%s)', $class, implode(',', $this->args));
                 $this->args = [];
@@ -58,9 +67,10 @@ class VisitorTest extends TestCase
 
         $visitor = new class ($collector) implements VisitorInterface
         {
+            /** @var object */
             private $collector;
 
-            public function __construct($collector)
+            public function __construct(object $collector)
             {
                 $this->collector = $collector;
             }
@@ -75,7 +85,8 @@ class VisitorTest extends TestCase
                 return '';
             }
 
-            public function visitInstance(Instance $value)
+            /** @inheritDoc */
+            public function visitInstance($value)
             {
             }
 
@@ -85,11 +96,16 @@ class VisitorTest extends TestCase
 
             public function visitNewInstance(string $class, SetterMethods $setterMethods, ?Arguments $arguments, ?AspectBind $bind)
             {
-                $arguments->accept($this);
+                if ($arguments) {
+                    $arguments->accept($this);
+                }
+
                 $setterMethods->accept($this);
+                assert(method_exists($this->collector, 'pushNewInstance'));
                 $this->collector->pushNewInstance($class);
             }
 
+            /** @inheritDoc */
             public function visitSetterMethods(array $setterMethods)
             {
                 foreach ($setterMethods as $setterMethod) {
@@ -97,12 +113,15 @@ class VisitorTest extends TestCase
                 }
             }
 
+            /** @inheritDoc */
             public function visitSetterMethod(string $method, Arguments $arguments)
             {
+                assert(method_exists($this->collector, 'pushMethod'));
                 $this->collector->pushMethod($method);
                 $arguments->accept($this);
             }
 
+            /** @inheritDoc */
             public function visitArguments(array $arguments)
             {
                 foreach ($arguments as $argument) {
@@ -110,8 +129,10 @@ class VisitorTest extends TestCase
                 }
             }
 
+            /** @inheritDoc */
             public function visitArgument(string $index, bool $isDefaultAvailable, $defaultValue, ReflectionParameter $parameter)
             {
+                assert(method_exists($this->collector, 'pushArg'));
                 $this->collector->pushArg($index);
             }
         };

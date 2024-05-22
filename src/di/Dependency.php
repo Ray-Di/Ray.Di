@@ -147,6 +147,7 @@ final class Dependency implements DependencyInterface, AcceptInterface
         $this->newInstance->weaveAspects($class, $bind); // @phpstan-ignore-line
     }
 
+    /** @inheritDoc */
     public function accept(VisitorInterface $visitor)
     {
         return $visitor->visitDependency(

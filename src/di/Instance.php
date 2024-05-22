@@ -69,6 +69,6 @@ final class Instance implements DependencyInterface, AcceptInterface
     /** @inheritDoc */
     public function accept(VisitorInterface $visitor)
     {
-        $visitor->visitInstance($this->value);
+        return $visitor->visitInstance($this->value);
     }
 }

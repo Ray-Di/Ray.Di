@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Ray\Di;
 
-use Ray\Compiler\CompileVisitor;
-
-use function assert;
 use function get_class;
 use function gettype;
 use function is_object;
 use function is_scalar;
 use function sprintf;
 
-final class Instance implements DependencyInterface
+final class Instance implements DependencyInterface, AcceptInterface
 {
     /** @var mixed */
     public $value;
@@ -69,10 +66,9 @@ final class Instance implements DependencyInterface
     {
     }
 
-    public function accept(VisitorInterface $visitor): string
+    /** @inheritDoc */
+    public function accept(VisitorInterface $visitor)
     {
-        assert($visitor instanceof CompileVisitor);
-
-        return $visitor->visitInstance($this->value);
+        $visitor->visitInstance($this->value);
     }
 }

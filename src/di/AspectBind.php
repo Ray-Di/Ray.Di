@@ -6,11 +6,10 @@ namespace Ray\Di;
 
 use Ray\Aop\Bind as AopBind;
 use Ray\Aop\MethodInterceptor;
-use Ray\Compiler\CompileVisitor;
 
 use function assert;
 
-final class AspectBind
+final class AspectBind implements AcceptInterface
 {
     /** @var AopBind */
     private $bind;
@@ -45,9 +44,9 @@ final class AspectBind
         return $instantiatedBindings;
     }
 
+    /** @inheritDoc */
     public function accept(VisitorInterface $visitor)
     {
-        assert($visitor instanceof CompileVisitor);
         $visitor->visitAspectBind($this->bind);
     }
 }

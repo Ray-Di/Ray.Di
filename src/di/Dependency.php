@@ -17,7 +17,7 @@ use function class_exists;
 use function method_exists;
 use function sprintf;
 
-final class Dependency implements DependencyInterface
+final class Dependency implements DependencyInterface, AcceptInterface
 {
     /** @var NewInstance */
     private $newInstance;
@@ -147,7 +147,7 @@ final class Dependency implements DependencyInterface
         $this->newInstance->weaveAspects($class, $bind); // @phpstan-ignore-line
     }
 
-    public function accept(VisitorInterface $visitor): string
+    public function accept(VisitorInterface $visitor)
     {
         return $visitor->visitDependency(
             $this->newInstance,

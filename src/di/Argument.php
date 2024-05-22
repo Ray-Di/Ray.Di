@@ -16,7 +16,7 @@ use function serialize;
 use function sprintf;
 use function unserialize;
 
-final class Argument implements Serializable
+final class Argument implements Serializable, AcceptInterface
 {
     public const UNBOUND_TYPE = ['bool', 'int', 'float', 'string', 'array', 'resource', 'callable', 'iterable'];
 
@@ -145,6 +145,7 @@ final class Argument implements Serializable
         $this->reflection = new ReflectionParameter([$ref[0], $ref[1]], $ref[2]);
     }
 
+    /** @inheritDoc */
     public function accept(VisitorInterface $visitor)
     {
         $visitor->visitArgument(

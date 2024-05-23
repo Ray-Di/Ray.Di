@@ -461,6 +461,22 @@ class InjectorTest extends TestCase
         $this->assertSame('1', $injector->getInstance('', 'first'));
     }
 
+    public function testSingleArray(): void
+    {
+        $modules = [
+            new class extends AbstractModule
+            {
+                protected function configure()
+                {
+                    $this->bind()->annotatedWith('var')->toInstance('a');
+                    $this->bind()->annotatedWith('first')->toInstance('1');
+                }
+            },
+        ];
+        $injector = new Injector($modules);
+        $this->assertSame('a', $injector->getInstance('', 'var'));
+    }
+
     /**
      * @requires PHP 8.0
      */

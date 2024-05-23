@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Ray\Di;
 
 use Ray\Aop\Compiler;
-use Ray\Compiler\CompileNullObject;
 
 use function array_shift;
 

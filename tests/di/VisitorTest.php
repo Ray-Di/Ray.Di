@@ -21,12 +21,23 @@ class VisitorTest extends TestCase
     /** @var Dependency */
     private $dependency;
 
+    /** @var DependencyProvider */
+    private $dependencyProvider;
+
+    /** @var Container  */
+    private $container;
+
     public function setUp(): void
     {
         $this->visitor = new NullVisitor();
-        $dependency = (new FakeCarModule())->getContainer()->getContainer()['Ray\Di\FakeCarInterface-'];
+        $this->container = (new ContainerFactory())(new FakeCarModule(), __DIR__);
+        $container = $this->container->getContainer();
+        $dependency = $container['Ray\Di\FakeCarInterface-'];
         assert($dependency instanceof Dependency);
         $this->dependency = $dependency;
+        $dependencyProvider = $container['Ray\Di\FakeHandleInterface-'];
+        assert($dependencyProvider instanceof DependencyProvider);
+        $this->dependencyProvider = $dependencyProvider;
     }
 
     public function testNullVisit(): void
@@ -47,9 +58,13 @@ class VisitorTest extends TestCase
             /** @var string */
             public $newInstance;
 
-            public function pushArg(string $arg): void
+            /** @var AopBind */
+            public $bind;
+
+            public function pushArg(string $arg, bool $isSingleton): void
             {
-                $this->args[] = $arg;
+                $type = $isSingleton ? 'singleton.' : 'prototype.';
+                $this->args[] = $type . $arg;
             }
 
             public function pushMethod(string $method): void
@@ -63,16 +78,25 @@ class VisitorTest extends TestCase
                 $this->newInstance = sprintf('%s(%s)', $class, implode(',', $this->args));
                 $this->args = [];
             }
+
+            public function pushAopBind(AopBind $bind): void
+            {
+                $this->bind = $bind;
+            }
         };
 
-        $visitor = new class ($collector) implements VisitorInterface
+        $visitor = new class ($collector, $this->container) implements VisitorInterface
         {
             /** @var object */
             private $collector;
 
-            public function __construct(object $collector)
+            /** @var Container */
+            private $container;
+
+            public function __construct(object $collector, Container $container)
             {
                 $this->collector = $collector;
+                $this->container = $container;
             }
 
             public function visitDependency(NewInstance $newInstance, ?string $postConstruct, bool $isSingleton)
@@ -82,16 +106,19 @@ class VisitorTest extends TestCase
 
             public function visitProvider(Dependency $dependency, string $context, bool $isSingleton): string
             {
-                return '';
+                return 'visitProvider';
             }
 
             /** @inheritDoc */
-            public function visitInstance($value)
+            public function visitInstance($value): string
             {
+                return 'visitInstance';
             }
 
             public function visitAspectBind(AopBind $aopBind)
             {
+                assert(method_exists($this->collector, 'pushAopBind'));
+                $this->collector->pushAopBind($aopBind);
             }
 
             public function visitNewInstance(string $class, SetterMethods $setterMethods, ?Arguments $arguments, ?AspectBind $bind)
@@ -103,6 +130,9 @@ class VisitorTest extends TestCase
                 $setterMethods->accept($this);
                 assert(method_exists($this->collector, 'pushNewInstance'));
                 $this->collector->pushNewInstance($class);
+                if ($bind instanceof AspectBind) {
+                    $bind->accept($this);
+                }
             }
 
             /** @inheritDoc */
@@ -132,14 +162,31 @@ class VisitorTest extends TestCase
             /** @inheritDoc */
             public function visitArgument(string $index, bool $isDefaultAvailable, $defaultValue, ReflectionParameter $parameter)
             {
+                $container = $this->container->getContainer();
+                $dependency = $container[$index];
+                assert($dependency instanceof Dependency || $dependency instanceof DependencyProvider);
+                $isSingleton = $dependency->isSingleton();
                 assert(method_exists($this->collector, 'pushArg'));
-                $this->collector->pushArg($index);
+                $this->collector->pushArg($index, $isSingleton);
             }
         };
 
         $this->dependency->accept($visitor);
-        $this->assertSame('Ray\Di\FakeCar(Ray\Di\FakeGearStickInterface-)', $collector->newInstance);
-        $this->assertSame('setTires(Ray\Di\FakeEngineInterface-)', $collector->methods[0]);
-        $this->assertSame('setHardtop(Ray\Di\FakeTyreInterface-,Ray\Di\FakeTyreInterface-)', $collector->methods[1]);
+        $this->assertStringContainsString('Ray\Di\FakeCar', $collector->newInstance);
+        $this->assertStringContainsString('(prototype.Ray\Di\FakeGearStickInterface-)', $collector->newInstance);
+        $this->assertSame('setTires(prototype.Ray\Di\FakeEngineInterface-)', $collector->methods[0]);
+        $this->assertSame('setHardtop(prototype.Ray\Di\FakeTyreInterface-,prototype.Ray\Di\FakeTyreInterface-)', $collector->methods[1]);
+    }
+
+    public function testVisitDependencyProvider(): void
+    {
+        $result = $this->dependencyProvider->accept($this->visitor);
+        $this->assertTrue($result);
+    }
+
+    public function testVisitInsntace(): void
+    {
+        $instance = new Instance('1');
+        $this->assertSame('1', $instance->accept($this->visitor));
     }
 }

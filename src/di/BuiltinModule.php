@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ray\Di;
 
-use function count;
+use Ray\Di\MultiBinding\MultiBindingModule;
 
 final class BuiltinModule
 {
@@ -12,12 +12,7 @@ final class BuiltinModule
     {
         $module->install(new AssistedModule());
         $module->install(new ProviderSetModule());
-        $module->install(new PramReaderModule());
-        $hasMultiBindings = count($module->getContainer()->multiBindings);
-        if ($hasMultiBindings) {
-            // Apply MapModule if multiple bindings are present
-            $module->override(new MapModule());
-        }
+        $module->install(new MultiBindingModule());
 
         return $module;
     }

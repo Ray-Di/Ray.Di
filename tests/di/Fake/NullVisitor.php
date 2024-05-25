@@ -26,16 +26,19 @@ final class NullVisitor implements VisitorInterface
         string $context,
         bool $isSingleton
     ) {
+        return true;
     }
 
     /** @inheritDoc */
     public function visitInstance($value)
     {
+        return $value;
     }
 
     /** @inheritDoc */
     public function visitAspectBind(Bind $aopBind)
     {
+        return $aopBind;
     }
 
     /** @inheritDoc */
@@ -48,6 +51,9 @@ final class NullVisitor implements VisitorInterface
         $setterMethods->accept($this);
         if ($arguments) {
             $arguments->accept($this);
+        }
+        if ($bind instanceof AspectBind) {
+            $bind->accept($this);
         }
     }
 

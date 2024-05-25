@@ -8,7 +8,7 @@ use Doctrine\Common\Cache\CacheProvider;
 
 /**
  * @psalm-suppress DeprecatedInterface
- * @codeCoverageIgnore
+ * @deprecated
  */
 final class NullCache extends CacheProvider
 {

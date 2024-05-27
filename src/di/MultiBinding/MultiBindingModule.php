@@ -13,6 +13,7 @@ class MultiBindingModule extends AbstractModule
 {
     protected function configure(): void
     {
+        $this->bind(MultiBindings::class);
         $this->bind(ParamReaderInterface::class)->to(ParamReader::class)->in(Scope::SINGLETON);
         $this->bind(Map::class)->toProvider(MapProvider::class);
     }

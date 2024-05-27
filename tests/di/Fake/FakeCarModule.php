@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Ray\Di;
 
+use Ray\Aop\NullInterceptor;
+
 class FakeCarModule extends AbstractModule
 {
     protected function configure()
@@ -16,5 +18,11 @@ class FakeCarModule extends AbstractModule
         $this->bind(FakeMirrorInterface::class)->annotatedWith('left')->to(FakeMirrorLeft::class)->in(Scope::SINGLETON); // named binding
         $this->bind('')->annotatedWith('logo')->toInstance('momo');
         $this->bind(FakeHandleInterface::class)->toProvider(FakeHandleProvider::class);
+        $this->bind(FakeGearStickInterface::class)->to(FakeLeatherGearStick::class);
+        $this->bindInterceptor(
+            $this->matcher->any(),
+            $this->matcher->any('start'),
+            [NullInterceptor::class]
+        );
     }
 }

@@ -17,7 +17,7 @@ use function class_exists;
 use function method_exists;
 use function sprintf;
 
-final class Dependency implements DependencyInterface
+final class Dependency implements DependencyInterface, AcceptInterface
 {
     /** @var NewInstance */
     private $newInstance;
@@ -145,5 +145,20 @@ final class Dependency implements DependencyInterface
         $class = $compiler->compile($className, $bind);
         /** @psalm-suppress ArgumentTypeCoercion */
         $this->newInstance->weaveAspects($class, $bind); // @phpstan-ignore-line
+    }
+
+    /** @inheritDoc */
+    public function accept(VisitorInterface $visitor)
+    {
+        return $visitor->visitDependency(
+            $this->newInstance,
+            $this->postConstruct,
+            $this->isSingleton
+        );
+    }
+
+    public function isSingleton(): bool
+    {
+        return $this->isSingleton;
     }
 }

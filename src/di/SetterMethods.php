@@ -6,7 +6,7 @@ namespace Ray\Di;
 
 use Exception;
 
-final class SetterMethods
+final class SetterMethods implements AcceptInterface
 {
     /** @var SetterMethod[] */
     private $setterMethods;
@@ -31,8 +31,16 @@ final class SetterMethods
 
     public function add(?SetterMethod $setterMethod = null): void
     {
-        if ($setterMethod) {
-            $this->setterMethods[] = $setterMethod;
+        if (! $setterMethod) {
+            return;
         }
+
+        $this->setterMethods[] = $setterMethod;
+    }
+
+    /** @inheritDoc */
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitSetterMethods($this->setterMethods);
     }
 }

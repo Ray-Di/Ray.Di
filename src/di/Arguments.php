@@ -7,7 +7,7 @@ namespace Ray\Di;
 use Ray\Di\Exception\Unbound;
 use ReflectionMethod;
 
-final class Arguments
+final class Arguments implements AcceptInterface
 {
     /** @var Argument[] */
     private $arguments = [];
@@ -36,6 +36,11 @@ final class Arguments
         }
 
         return $parameters;
+    }
+
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitArguments($this->arguments);
     }
 
     /**

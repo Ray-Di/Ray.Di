@@ -82,6 +82,16 @@ final class NewInstance
         $this->bind = new AspectBind($bind);
     }
 
+    public function accept(VisitorInterface $visitor): void
+    {
+        $visitor->visitNewInstance(
+            $this->class,
+            $this->setterMethods,
+            $this->arguments,
+            $this->bind
+        );
+    }
+
     private function postNewInstance(Container $container, object $instance): object
     {
         // bind dependency injected interceptors

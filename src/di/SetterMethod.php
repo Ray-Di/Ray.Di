@@ -12,7 +12,7 @@ use ReflectionMethod;
 use function call_user_func_array;
 use function is_callable;
 
-final class SetterMethod
+final class SetterMethod implements AcceptInterface
 {
     /** @var string */
     private $method;
@@ -62,5 +62,11 @@ final class SetterMethod
     public function setOptional(): void
     {
         $this->isOptional = true;
+    }
+
+    /** @inheritDoc */
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitSetterMethod($this->method, $this->arguments);
     }
 }

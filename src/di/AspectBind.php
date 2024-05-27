@@ -9,7 +9,7 @@ use Ray\Aop\MethodInterceptor;
 
 use function assert;
 
-final class AspectBind
+final class AspectBind implements AcceptInterface
 {
     /** @var AopBind */
     private $bind;
@@ -42,5 +42,11 @@ final class AspectBind
         }
 
         return $instantiatedBindings;
+    }
+
+    /** @inheritDoc */
+    public function accept(VisitorInterface $visitor)
+    {
+        $visitor->visitAspectBind($this->bind);
     }
 }

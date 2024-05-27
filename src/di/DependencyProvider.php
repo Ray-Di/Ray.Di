@@ -7,7 +7,7 @@ namespace Ray\Di;
 use function assert;
 use function sprintf;
 
-final class DependencyProvider implements DependencyInterface
+final class DependencyProvider implements DependencyInterface, AcceptInterface
 {
     /** @var string */
     public $context;
@@ -88,5 +88,20 @@ final class DependencyProvider implements DependencyInterface
     public function setContext(SetContextInterface $provider): void
     {
         $provider->setContext($this->context);
+    }
+
+    public function isSingleton(): bool
+    {
+        return $this->isSingleton;
+    }
+
+    /** @inheritDoc */
+    public function accept(VisitorInterface $visitor)
+    {
+        return $visitor->visitProvider(
+            $this->dependency,
+            $this->context,
+            $this->isSingleton
+        );
     }
 }

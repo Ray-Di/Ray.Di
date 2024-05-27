@@ -10,7 +10,7 @@ use function is_object;
 use function is_scalar;
 use function sprintf;
 
-final class Instance implements DependencyInterface
+final class Instance implements DependencyInterface, AcceptInterface
 {
     /** @var mixed */
     public $value;
@@ -64,5 +64,11 @@ final class Instance implements DependencyInterface
      */
     public function setScope($scope): void
     {
+    }
+
+    /** @inheritDoc */
+    public function accept(VisitorInterface $visitor)
+    {
+        return $visitor->visitInstance($this->value);
     }
 }

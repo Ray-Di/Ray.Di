@@ -48,30 +48,6 @@ final class ProviderSetProvider implements ProviderInterface
             throw new SetNotFound((string) $this->ip->getParameter());
         }
 
-        return new class ($this->injector, $set) implements ProviderInterface
-        {
-            /** @var InjectorInterface  */
-            private $injector;
-
-            /** @var Set<object>  */
-            private $set;
-
-            /**
-             * @param Set<object> $set
-             */
-            public function __construct(InjectorInterface $injector, Set $set)
-            {
-                $this->injector = $injector;
-                $this->set = $set;
-            }
-
-            /**
-             * @return mixed
-             */
-            public function get()
-            {
-                return $this->injector->getInstance($this->set->interface, $this->set->name);
-            }
-        };
+        return new ProviderProvider($this->injector, $set);
     }
 }

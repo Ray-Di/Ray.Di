@@ -19,7 +19,6 @@ class ProviderProviderTest extends TestCase
                 }
             }
         );
-        /** @var Set<object> $set */
         $set = new Set(FakeEngineInterface::class);
         $provider = new ProviderProvider($injector, $set);
         $instance = $provider->get();

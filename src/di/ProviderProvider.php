@@ -6,16 +6,19 @@ namespace Ray\Di;
 
 use Ray\Di\Di\Set;
 
-/** @implements ProviderInterface<mixed> */
+/**
+ * @implements ProviderInterface<mixed>
+ * @template T of object
+ */
 final class ProviderProvider implements ProviderInterface
 {
     /** @var InjectorInterface  */
     private $injector;
 
-    /** @var Set<object> */
+    /** @var Set<T> */
     private $set;
 
-    /** @param Set<object> $set */
+    /** @param Set<T> $set */
     public function __construct(InjectorInterface $injector, Set $set)
     {
         $this->injector = $injector;

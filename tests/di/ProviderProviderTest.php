@@ -9,7 +9,7 @@ use Ray\Di\Di\Set;
 
 class ProviderProviderTest extends TestCase
 {
-    public function testInvoke(): void
+    public function testGet(): void
     {
         $injector = new Injector(
             new class extends AbstractModule {
@@ -19,6 +19,7 @@ class ProviderProviderTest extends TestCase
                 }
             }
         );
+        /** @var Set<object> $set */
         $set = new Set(FakeEngineInterface::class);
         $provider = new ProviderProvider($injector, $set);
         $instance = $provider->get();

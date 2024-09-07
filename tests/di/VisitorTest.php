@@ -30,7 +30,7 @@ class VisitorTest extends TestCase
     public function setUp(): void
     {
         $this->visitor = new NullVisitor();
-        $this->container = (new ContainerFactory())(new FakeCarModule(), __DIR__);
+        $this->container = (new ContainerFactory())(new FakeCarModule(), __DIR__ . '/tmp');
         $container = $this->container->getContainer();
         $dependency = $container['Ray\Di\FakeCarInterface-'];
         assert($dependency instanceof Dependency);

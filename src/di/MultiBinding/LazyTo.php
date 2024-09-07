@@ -27,6 +27,6 @@ final class LazyTo implements LazyInteterface
      */
     public function __invoke(InjectorInterface $injector)
     {
-        return $injector->getInstance($this->class);
+        return $injector->getInstance($this->class); // @phpstan-ignore-line
     }
 }

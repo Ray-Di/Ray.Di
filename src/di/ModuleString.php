@@ -33,14 +33,18 @@ final class ModuleString
             }
 
             $log[] = sprintf(
-                '%s => %s',
+                '%s -> %s',
                 $dependencyIndex,
                 (string) $dependency
             );
         }
 
         sort($log);
+        $numLog = [];
+        foreach ($log as $key => $value) {
+            $numLog[] = sprintf('%d: %s', $key, $value);
+        }
 
-        return implode(PHP_EOL, $log);
+        return implode(PHP_EOL, $numLog);
     }
 }

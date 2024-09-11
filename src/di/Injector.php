@@ -6,10 +6,12 @@ namespace Ray\Di;
 
 use Doctrine\Common\Annotations\AnnotationException;
 use Ray\Aop\Compiler;
+use Ray\Di\Exception\Unbound;
 use Ray\Di\Exception\Untargeted;
 
 use function assert;
 use function file_exists;
+use function file_put_contents;
 use function is_dir;
 use function spl_autoload_register;
 use function sprintf;
@@ -65,6 +67,13 @@ class Injector implements InjectorInterface
             $this->bind($interface);
             /** @psalm-suppress MixedAssignment */
             $instance = $this->getInstance($interface, $name);
+        } catch (Unbound $e) {
+            $bindings =  (new ModuleString())($this->container, $this->container->getPointcuts());
+            $logFile = sprintf('%s/module.log', $this->classDir);
+            file_put_contents($logFile, $bindings);
+            $message = sprintf("%s\nSee the binding log: %s", $e->getMessage(), $logFile);
+
+            throw new Unbound($message);
         }
 
         /** @psalm-suppress MixedReturnStatement */

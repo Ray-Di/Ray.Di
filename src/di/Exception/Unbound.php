@@ -51,7 +51,7 @@ class Unbound extends LogicException implements ExceptionInterface
     private function getMainMessage(self $e): string
     {
         return sprintf(
-            "exception '%s' with message '%s'\n",
+            "'%s': Unresolvable dependency: %s\n",
             get_class($e),
             $e->getMessage()
         );

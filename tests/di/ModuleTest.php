@@ -50,14 +50,14 @@ class ModuleTest extends TestCase
     public function testtoString(): void
     {
         $string = (string) new FakeLogStringModule();
-        $this->assertSame('-array => (array)
--bool => (boolean) 1
--int => (integer) 1
--null => (NULL)
--object => (object) stdClass
--string => (string) 1
-Ray\Di\FakeAopInterface- => (dependency) Ray\Di\FakeAop (aop) +returnSame(Ray\Di\FakeDoubleInterceptor)
-Ray\Di\FakeDoubleInterceptor- => (dependency) Ray\Di\FakeDoubleInterceptor
-Ray\Di\FakeRobotInterface- => (provider) (dependency) Ray\Di\FakeRobotProvider', $string);
+        $this->assertSame('0: -array -> (instance: array)
+1: -bool -> (instance: boolean) 1
+2: -int -> (instance: integer) 1
+3: -null -> (instance: NULL)
+4: -object -> (instance: object) stdClass
+5: -string -> (instance: string) 1
+6: Ray\Di\FakeAopInterface- -> (dependency) Ray\Di\FakeAop (aop) +returnSame(Ray\Di\FakeDoubleInterceptor)
+7: Ray\Di\FakeDoubleInterceptor- -> (dependency) Ray\Di\FakeDoubleInterceptor
+8: Ray\Di\FakeRobotInterface- -> (provider) (dependency) Ray\Di\FakeRobotProvider', $string);
     }
 }

@@ -6,11 +6,13 @@ namespace Ray\Di;
 
 use Doctrine\Common\Annotations\AnnotationException;
 use Ray\Aop\Compiler;
+use Ray\Di\Exception\DirectoryNotWritable;
 use Ray\Di\Exception\Untargeted;
 
 use function assert;
 use function file_exists;
 use function is_dir;
+use function is_writable;
 use function spl_autoload_register;
 use function sprintf;
 use function str_replace;
@@ -32,6 +34,10 @@ class Injector implements InjectorInterface
     {
         /** @var non-empty-string $classDir */
         $classDir = is_dir($tmpDir) ? $tmpDir : sys_get_temp_dir();
+        if (! is_writable($classDir)) {
+            throw new DirectoryNotWritable($classDir); // @CodeCoverageIgnore
+        }
+
         $this->classDir = $classDir;
         $this->container = (new ContainerFactory())($module, $this->classDir);
         // Bind injector (built-in bindings)

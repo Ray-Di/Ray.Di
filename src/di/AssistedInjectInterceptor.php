@@ -63,6 +63,8 @@ final class AssistedInjectInterceptor implements MethodInterceptor
     }
 
     /**
+     * @param MethodInvocation<object> $invocation
+     *
      * @return array<string, mixed>
      */
     private function getNamedArguments(MethodInvocation $invocation): array

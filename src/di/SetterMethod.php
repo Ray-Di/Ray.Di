@@ -67,6 +67,16 @@ final class SetterMethod implements AcceptInterface
     /** @inheritDoc */
     public function accept(VisitorInterface $visitor)
     {
-        $visitor->visitSetterMethod($this->method, $this->arguments);
+        try {
+            $visitor->visitSetterMethod($this->method, $this->arguments);
+        } catch (Unbound $e) {
+            if ($this->isOptional) {
+                // Return when no dependency given and @Inject(optional=true) annotated to setter method.
+                return;
+            }
+
+            // Throw exception when no dependency given and @Inject(optional=false) annotated to setter method.
+            throw $e;
+        }
     }
 }

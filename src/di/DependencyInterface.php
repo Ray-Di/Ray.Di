@@ -35,4 +35,11 @@ interface DependencyInterface
      * @return void
      */
     public function setScope($scope);
+
+    /**
+     * Accept a visitor for this object
+     *
+     * @param VisitorInterface $visitor The visitor instance that will be accepted by the method.
+     */
+    public function accept(VisitorInterface $visitor);
 }

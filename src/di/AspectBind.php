@@ -22,7 +22,7 @@ final class AspectBind implements AcceptInterface
     /**
      * Instantiate interceptors
      *
-     * @return array<string, array<MethodInterceptor>>
+     * @return array<string, list<MethodInterceptor>>
      */
     public function inject(Container $container): array
     {
@@ -32,7 +32,6 @@ final class AspectBind implements AcceptInterface
             $interceptors = [];
             foreach ($interceptorClassNames as $interceptorClassName) {
                 /** @var class-string $interceptorClassName */
-                /** @psalm-suppress MixedAssignment */
                 $interceptor = $container->getInstance($interceptorClassName);
                 assert($interceptor instanceof MethodInterceptor);
                 $interceptors[] = $interceptor;

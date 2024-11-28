@@ -18,7 +18,7 @@ use function sys_get_temp_dir;
 
 class Injector implements InjectorInterface
 {
-    /** @var string */
+    /** @var non-empty-string */
     private $classDir;
 
     /** @var Container */
@@ -30,7 +30,9 @@ class Injector implements InjectorInterface
      */
     public function __construct($module = null, string $tmpDir = '')
     {
-        $this->classDir = is_dir($tmpDir) ? $tmpDir : sys_get_temp_dir();
+        /** @var non-empty-string $classDir */
+        $classDir = is_dir($tmpDir) ? $tmpDir : sys_get_temp_dir();
+        $this->classDir = $classDir;
         $this->container = (new ContainerFactory())($module, $this->classDir);
         // Bind injector (built-in bindings)
         (new Bind($this->container, InjectorInterface::class))->toInstance($this);

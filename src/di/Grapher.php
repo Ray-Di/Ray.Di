@@ -14,14 +14,15 @@ use function str_replace;
 
 final class Grapher
 {
-    /** @var string */
+    /** @var non-empty-string */
     private $classDir;
 
     /** @var Container */
     private $container;
 
     /**
-     * @param AbstractModule $module Binding module
+     * @param AbstractModule   $module   Binding module
+     * @param non-empty-string $classDir Class directory
      *
      * @throws AnnotationException
      */

@@ -42,4 +42,11 @@ final class NullDependency implements DependencyInterface
     public function setScope($scope)
     {
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function accept(VisitorInterface $visitor)
+    {
+    }
 }

@@ -67,4 +67,8 @@ final class NullObjectDependency implements DependencyInterface
 
         return new Dependency(new NewInstance(new ReflectionClass($class), new SetterMethods([])));
     }
+
+    public function accept(VisitorInterface $visitor)
+    {
+    }
 }

@@ -6,7 +6,7 @@ namespace Ray\Di\MultiBinding;
 
 use Ray\Di\InjectorInterface;
 
-interface LazyInteterface
+interface LazyInterface
 {
     /**
      * @return mixed

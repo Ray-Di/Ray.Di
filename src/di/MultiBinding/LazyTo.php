@@ -9,7 +9,7 @@ use Ray\Di\InjectorInterface;
 /**
  * @template T of object
  */
-final class LazyTo implements LazyInteterface
+final class LazyTo implements LazyInterface
 {
     /** @var class-string<T> */
     private $class;

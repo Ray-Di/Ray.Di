@@ -10,7 +10,7 @@ use Ray\Di\ProviderInterface;
 /**
  * @template T of ProviderInterface
  */
-final class LazyProvider implements LazyInteterface
+final class LazyProvider implements LazyInterface
 {
     /** @var class-string<T> */
     private $class;

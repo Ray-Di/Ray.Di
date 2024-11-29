@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Ray\Di;
 
 use Ray\Di\MultiBinding\LazyInstance;
-use Ray\Di\MultiBinding\LazyInteterface;
+use Ray\Di\MultiBinding\LazyInterface;
 use Ray\Di\MultiBinding\LazyProvider;
 use Ray\Di\MultiBinding\LazyTo;
 use Ray\Di\MultiBinding\MultiBindings;
@@ -80,7 +80,7 @@ final class MultiBinder
         $this->bind(new LazyInstance($instance), $this->key);
     }
 
-    private function bind(LazyInteterface $lazy, ?string $key): void
+    private function bind(LazyInterface $lazy, ?string $key): void
     {
         $bindings = [];
         if ($this->multiBindings->offsetExists($this->interface)) {

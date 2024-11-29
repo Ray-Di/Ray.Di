@@ -25,7 +25,7 @@ final class Inject implements InjectInterface
     public $optional = false;
 
     /**
-     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag) // @phpstan-ignore-line
      */
     public function __construct(bool $optional = false)
     {

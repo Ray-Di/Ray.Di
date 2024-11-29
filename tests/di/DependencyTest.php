@@ -115,7 +115,7 @@ class DependencyTest extends TestCase
         $isWeave = (new ReflectionClass($instance))->implementsInterface(WeavedInterface::class);
         $this->assertTrue($isWeave);
         assert(property_exists($instance, 'bindings'));
-        $this->assertArrayHasKey('returnSame', $instance->bindings);
+        $this->assertArrayHasKey('returnSame', (array) $instance->bindings);
     }
 
     /**

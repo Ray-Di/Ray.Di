@@ -150,11 +150,12 @@ final class Name
             $exploded = explode('=', $keyValue);
             if (isset($exploded[1])) {
                 [$key, $value] = $exploded;
-                assert(is_string($key));
                 if (isset($key[0]) && $key[0] === '$') {
+                    assert(is_string($key)); // @phpstan-ignore-line
                     $key = substr($key, 1);
                 }
 
+                /** @psalm-suppress MixedArgument */
                 $names[trim($key)] = trim($value);
             }
         }

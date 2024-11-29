@@ -14,12 +14,12 @@
         "koriym/attributes": "^1.0.4",
         "koriym/null-object": "^1.0",
         "koriym/param-reader": "^1.0",
-        "ray/aop": "^2.14",
+        "ray/aop": "^2.16",
         "ray/compiler": "^1.10.3"
     },
     "require-dev": {
         "ext-pdo": "*",
-        "phpunit/phpunit": "^8.5.24 || ^9.5",
+        "phpunit/phpunit": "^8.5.40 || ^9.5",
         "bamarni/composer-bin-plugin": "^1.4"
     },
     "config": {

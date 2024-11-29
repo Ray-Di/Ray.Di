@@ -63,7 +63,7 @@ class FakePhp8Car implements FakeCarInterface
     }
 
     #[Inject]
-    public function notQualifer(#[FakeNotQualifer] FakeMirrorInterface $rightMirror =  null): void
+    public function notQualifer(#[FakeNotQualifer] ?FakeMirrorInterface $rightMirror =  null): void
     {
     }
 

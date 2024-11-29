@@ -8,8 +8,6 @@ use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use ReflectionParameter;
 
-use function assert;
-use function is_object;
 use function spl_object_hash;
 
 class ArgumentsTest extends TestCase
@@ -29,7 +27,6 @@ class ArgumentsTest extends TestCase
         $this->assertInstanceOf(FakeTyre::class, $parameters[0]);
         $this->assertInstanceOf(FakeTyre::class, $parameters[1]);
         $param0 = $parameters[0];
-        assert(is_object($param0));
         $this->assertNotSame(spl_object_hash($param0), $parameters[1]);
     }
 

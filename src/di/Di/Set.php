@@ -12,6 +12,7 @@ use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
  * @Target({"METHOD","PROPERTY"})
  * @NamedArgumentConstructor()
  * @template T of object
+ * @psalm-immutable
  */
 #[Attribute(Attribute::TARGET_PARAMETER | Attribute::TARGET_PROPERTY)]
 final class Set

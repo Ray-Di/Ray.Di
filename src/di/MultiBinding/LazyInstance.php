@@ -8,6 +8,7 @@ use Ray\Di\InjectorInterface;
 
 /**
  * @template T of mixed
+ * @psalm-immutable
  */
 final class LazyInstance implements LazyInteterface
 {

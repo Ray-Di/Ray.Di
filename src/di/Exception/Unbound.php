@@ -48,6 +48,9 @@ class Unbound extends LogicException implements ExceptionInterface
         return $this->getMainMessage($lastE) . implode('', $msg);
     }
 
+    /**
+     * @psalm-pure
+     */
     private function getMainMessage(self $e): string
     {
         return sprintf(

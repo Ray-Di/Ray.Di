@@ -171,6 +171,9 @@ final class Argument implements Serializable, AcceptInterface
         }
     }
 
+    /**
+     * @psalm-pure
+     */
     private function getType(ReflectionParameter $parameter): string
     {
         $type = $parameter->getType();

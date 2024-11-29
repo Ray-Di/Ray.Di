@@ -141,6 +141,8 @@ final class Name
 
     /**
      * @return array<string, string>
+     *
+     * @psalm-pure
      */
     private function parseName(string $name): array
     {

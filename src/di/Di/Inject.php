@@ -23,7 +23,7 @@ final class Inject implements InjectInterface
      *
      * @var bool
      */
-    public $optional = false;
+    public $optional;
 
     /**
      * @SuppressWarnings(PHPMD.BooleanArgumentFlag) // @phpstan-ignore-line

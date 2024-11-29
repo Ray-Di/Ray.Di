@@ -19,7 +19,7 @@ use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
 final class Named
 {
     /** @var string */
-    public $value = '';
+    public $value;
 
     public function __construct(string $value)
     {

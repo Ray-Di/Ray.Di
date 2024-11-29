@@ -206,8 +206,6 @@ final class Bind
      * output: "varA=nameA,varB=nameB"
      *
      * @param array<string, string> $name
-     *
-     * @psalm-pure
      */
     private function getStringName(array $name): string
     {

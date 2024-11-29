@@ -16,7 +16,6 @@ use function defined;
 use function file_get_contents;
 use function is_string;
 use function passthru;
-use function property_exists;
 use function serialize;
 use function spl_object_hash;
 use function unlink;
@@ -184,7 +183,6 @@ class InjectorTest extends TestCase
         $this->assertInstanceOf(FakeMirrorInterface::class, $car->spareMirror);
         $this->assertSame(spl_object_hash($car->rightMirror), spl_object_hash($car->spareMirror));
         $this->assertInstanceOf(FakeHandle::class, $car->handle);
-        assert($car->handle instanceof FakeHandle);
         $this->assertSame($car->handle->logo, 'momo');
 
         return $injector;
@@ -242,7 +240,6 @@ class InjectorTest extends TestCase
         $injector = unserialize(serialize(new Injector()));
         assert($injector instanceof InjectorInterface);
         $instance = $injector->getInstance(FakeBuiltin::class);
-        assert(property_exists($instance, 'injector'));
         $this->assertInstanceOf(Injector::class, $instance->injector);
     }
 
@@ -430,9 +427,7 @@ class InjectorTest extends TestCase
         $instance = $injector->getInstance(FakeAop::class);
         $result = $instance->returnSame(2);
         $this->assertSame(2, $result);
-        assert(property_exists($instance, 'bindings'));
-        assert(isset($instance->bindings['returnSame'][0]));
-        $this->assertInstanceOf(NullInterceptor::class, $instance->bindings['returnSame'][0]);
+        $this->assertInstanceOf(NullInterceptor::class, $instance->bindings['returnSame'][0]); // @phpstan-ignore-line
     }
 
     public function testModuleArray(): void

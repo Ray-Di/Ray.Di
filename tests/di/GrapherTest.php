@@ -9,10 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 use function assert;
 use function file_get_contents;
-use function is_object;
 use function is_string;
 use function passthru;
-use function property_exists;
 use function unserialize;
 
 class GrapherTest extends TestCase
@@ -28,7 +26,6 @@ class GrapherTest extends TestCase
         $grapher = new Grapher(new FakeUntargetModule(), __DIR__ . '/tmp');
         $instance = $grapher->newInstanceArgs(FakeUntargetChild::class, ['1']);
         $this->assertInstanceOf(FakeUntargetChild::class, $instance);
-        assert(property_exists($instance, 'val'));
         $this->assertSame('1', $instance->val);
     }
 

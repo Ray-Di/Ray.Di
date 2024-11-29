@@ -8,8 +8,6 @@ use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use ReflectionParameter;
 
-use function assert;
-use function is_object;
 use function spl_object_hash;
 
 class ArgumentsTest extends TestCase

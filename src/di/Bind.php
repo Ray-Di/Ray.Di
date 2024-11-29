@@ -218,7 +218,7 @@ final class Bind
              * @param array-key $key
              */
             static function (array $carry, $key) use ($name): array {
-                if (! is_string($key)) {
+                if (! is_string($key)) { // @phpstan-ignore-line
                     throw new InvalidToConstructorNameParameter((string) $key);
                 }
 

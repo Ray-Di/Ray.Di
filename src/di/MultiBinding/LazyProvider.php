@@ -7,8 +7,6 @@ namespace Ray\Di\MultiBinding;
 use Ray\Di\InjectorInterface;
 use Ray\Di\ProviderInterface;
 
-use function assert;
-
 /**
  * @template T of ProviderInterface
  */

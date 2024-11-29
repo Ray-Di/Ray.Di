@@ -28,7 +28,6 @@ class GrapherTest extends TestCase
         $grapher = new Grapher(new FakeUntargetModule(), __DIR__ . '/tmp');
         $instance = $grapher->newInstanceArgs(FakeUntargetChild::class, ['1']);
         $this->assertInstanceOf(FakeUntargetChild::class, $instance);
-        assert(is_object($instance));
         assert(property_exists($instance, 'val'));
         $this->assertSame('1', $instance->val);
     }

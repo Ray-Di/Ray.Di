@@ -150,7 +150,6 @@ final class Name
             $exploded = explode('=', $keyValue);
             if (isset($exploded[1])) {
                 [$key, $value] = $exploded;
-                assert(is_string($key));
                 if (isset($key[0]) && $key[0] === '$') {
                     $key = substr($key, 1);
                 }

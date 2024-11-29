@@ -107,7 +107,7 @@ final class InjectionPoint implements InjectionPointInterface, Serializable
         [$this->pClass, $this->pFunction, $this->pName] = $array;
     }
 
-    public function serialize(): ?string
+    public function serialize(): ?string // @phpstan-ignore-line
     {
         return serialize($this->__serialize());
     }

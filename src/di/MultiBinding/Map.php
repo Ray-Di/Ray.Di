@@ -23,14 +23,14 @@ use function count;
  */
 final class Map implements IteratorAggregate, ArrayAccess, Countable
 {
-    /** @var array<array-key, LazyInteterface> $lazies */
+    /** @var array<array-key, LazyInterface> $lazies */
     private $lazies;
 
     /** @var InjectorInterface */
     private $injector;
 
     /**
-     * @param array<array-key, LazyInteterface> $lazies
+     * @param array<array-key, LazyInterface> $lazies
      */
     public function __construct(array $lazies, InjectorInterface $injector)
     {

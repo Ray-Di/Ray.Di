@@ -10,7 +10,7 @@ use Ray\Di\InjectorInterface;
  * @template T of mixed
  * @psalm-immutable
  */
-final class LazyInstance implements LazyInteterface
+final class LazyInstance implements LazyInterface
 {
     /** @var T */
     private $instance;

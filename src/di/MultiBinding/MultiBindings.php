@@ -9,7 +9,7 @@ use ArrayObject;
 use function array_merge_recursive;
 
 /**
- * @extends ArrayObject<string, non-empty-array<array-key, LazyInteterface>>
+ * @extends ArrayObject<string, non-empty-array<array-key, LazyInterface>>
  */
 final class MultiBindings extends ArrayObject
 {
